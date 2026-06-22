@@ -11,6 +11,8 @@ cd code
 docker compose up --build
 ```
 
+> **Ready when you see:** `seed | Seeded 864 readings` in the terminal logs (~60 s). Then open the dashboard.
+
 | Service   | URL |
 |-----------|-----|
 | Dashboard | http://localhost:5173 |
@@ -131,13 +133,26 @@ For real deployments:
 - Partition `readings` by month for long-term retention
 - Integration tests in CI with Testcontainers PostgreSQL
 
-## Tools and resources
+## Tools and resources used
 
-- **FastAPI** — API framework and OpenAPI docs
-- **SQLAlchemy 2** — ORM and query builder
-- **React + Vite + Recharts** — dashboard and temperature chart
-- **Docker Compose** — local orchestration
-- **Cursor** — development assistant
+**Backend**
+- **FastAPI 0.115** — REST API framework, auto-generates OpenAPI / Swagger docs at `/docs`
+- **SQLAlchemy 2** — ORM; `DeclarativeBase` models, `mapped_column` type-annotated columns
+- **Pydantic 2** — request/response validation (`ReadingCreate`, `ReadingResponse`, `AlertResponse`)
+- **psycopg2-binary** — PostgreSQL driver
+- **Uvicorn** — ASGI server (production-grade with `--reload` for development)
+- **python-dotenv** — optional `.env` support for `DATABASE_URL` and threshold overrides
+
+**Frontend**
+- **React 18 + Vite** — component-based UI with hot-module reload
+- **TypeScript** — full type safety across API layer and components
+- **Recharts** — temperature trend chart with threshold reference line
+- **Framer Motion** — page-enter animations and hover micro-interactions
+- **Three.js / React Three Fiber** — 3-D crane viewport in the command-centre hero section
+
+**Infrastructure**
+- **Docker Compose** — single-command orchestration of DB, API, seed, and frontend services
+- **PostgreSQL 16** — primary production database (seed and live ingest share the same alert path)
 
 **Rejected approach:** WebSockets for live updates. Polling every 5 seconds is sufficient for crane telemetry at this scale, avoids connection-state complexity, and matches the assignment wording ("polling every few seconds is fine").
 
