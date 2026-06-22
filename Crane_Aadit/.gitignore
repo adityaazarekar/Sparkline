@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Local dev database (SQLite fallback — not for production or submission)
+sparkline.db
+*.db
+
+# Node
+node_modules/
+.next/
+dist/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Env secrets
+.env
+.env.local
